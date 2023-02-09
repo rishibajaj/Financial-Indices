@@ -1,0 +1,50 @@
+.header {
+    min-height: 400px;
+}
+
+.index {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+}
+
+.description {
+    padding: 50px;
+}
+
+#index-section {
+    height: 100vh;
+}
+
+#index-display {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.graph {
+    padding: 20px;
+}
+
+.table {
+    padding: 20px;
+}
+
+.method {
+    margin: 25px 10px;
+    border: 2px solid black;
+    padding: 0px;
+}
+
+#methodology {
+    padding: 0px;
+}
+
+h3 {
+    background-color: #e9ecef;
+    padding: 10px;
+}
+
+#index-content {
+    padding: 20px;
+}
