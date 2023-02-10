@@ -5,6 +5,28 @@ let formatter = new Intl.NumberFormat('en-US');
 let URL = "https://api.coingecko.com/api/v3/coins/"
 
 
+function displayArticles(data) {
+    // Display 5 articles related to the cryptocoin of choice
+    for (let i = 0; i < 5; i++) {
+		// Variable to access the articles
+        const article = data.response.docs[i];
+		// Create list of articles
+        let articleList = $("<ul>");
+        $("#article-section").append(articleList);
+        let articleListItem = $("<li>");
+		// Create article headline, publication date, abstract and url link
+        articleListItem.append("<h4> " + article.headline.main + "</h4>");
+        articleListItem.append("<p> " + article.pub_date + "</p>");
+        articleListItem.append("<p>" + article.abstract + "</p>");
+        articleListItem.append("<a href='" + article.web_url + "'>" + article.web_url + "</a>");
+
+        // Append the article to article list
+        articleList.append(articleListItem);
+
+    }
+}
+
+
 // In the construction of the buildQueryURL I have follow procedure used in class to construct the NYT search app.
 function buildQueryURL(result) {
     // constructiong queryURL (URL of API)
@@ -15,7 +37,7 @@ function buildQueryURL(result) {
     var queryPrmts = { "api-key": "R1a31F4tBjCUaM2ho8GtIFsrSdtXt30M" };
 
     // Get the search input and add to the object being constructed
-    queryPrmts.q = result[0];
+    queryPrmts.q = result[0].name;
 
     // console.log API URL constructed for troubleshooting
     console.log("-------API URL--------\nURL: " + queryURL + $.param(queryPrmts) + "\n----------------------");
@@ -33,8 +55,7 @@ function nyt(result) {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-		console.log("NYT response:", response);
-        //displayArticles(response);
+        displayArticles(response);
     });
 }
 
