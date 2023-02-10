@@ -42,10 +42,38 @@ function fetchTableData() {
 	});
 };
 
+function fetchGraphData() {
+	const  searchInput = $("#searchInput").val();
+
+	console.log(searchInput);
+
+	const dateFrom = moment().subtract(7,'d').utc();
+	const dateFromUnix = moment().subtract(7,'d').unix();
+	console.log(dateFrom);
+	console.log(dateFromUnix);
+	const dateTo = moment().utc();
+	const dateToUnix = moment().unix();
+	console.log(dateTo);
+	console.log(dateToUnix);
+
+	
+	fetch(URL + searchInput + "/market_chart/range?vs_currency=usd&from=" + dateFromUnix + "&to=" + dateToUnix)
+	.then((result) => {
+	  return result.json();
+	})
+	.then((result) => {
+	  console.log(result.prices);
+	})
+	.catch(function (error) {
+	  console.log(error);
+	});
+};
+
 $("#searchButton").on("click", function(event) {
 	event.preventDefault();
 
 	fetchTableData();
+	fetchGraphData();
 	
 	$("#searchInput").val("")
 });
