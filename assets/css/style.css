@@ -30,13 +30,13 @@
     padding: 20px;
 }
 
-.method {
+.method, .nyt {
     margin: 25px 10px;
     border: 2px solid black;
     padding: 0px;
 }
 
-#methodology {
+#methodology, #nyt {
     padding: 0px;
 }
 
@@ -48,3 +48,4 @@ h3 {
 #index-content {
     padding: 20px;
 }
+
