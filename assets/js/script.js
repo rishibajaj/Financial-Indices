@@ -2,7 +2,59 @@
 let todaysDate = moment().format("DD-MM-YYYY");
 let formatter = new Intl.NumberFormat('en-US');
 
-let URL = "https://api.coingecko.com/api/v3/coins/"
+let URL = "https://api.coingecko.com/api/v3/coins/";
+
+// Array with cryptocoins
+var coins = ["Bitcoin","Ethereum","Tether","BNB","USD Coin","XRP","Binance USD","Cardano","Dogecoin",
+"Polygon","OKB","Lido Staked Ether","Solana","Polkadot","Shiba Inu","Litecoin","TRON","Avalanche","Dai",
+"Uniswap","Cosmos Hub","Wrapped Bitcoin","Chainlink","Toncoin","LEO Token","Ethereum Classic","Monero",
+"Bitcoin Cash","Hedera","Stellar","Aptos","Lido DAO","Filecoin","ApeCoin","Cronos","Quant","NEAR Protocol",
+"Algorand","VeChain","Internet Computer","The Graph","The Sandbox","Fantom","Decentraland","Axie Infinity",
+"EOS","Aave","MultiversX","Theta Network","Flow"];
+
+
+function autocomplete(input, coins) {
+	// function takes two arguments: text field element and cryptocoins array
+	var currentFocus;
+	// execute the function when text field is written in
+	input.addEventListener("input", function(event) {
+		// variable to store input value
+		var val = this.value;
+
+		// if the input field is empty
+		if (!val) {
+			return false;
+		}
+		currentFocus = -1;
+		//create div element that will contain the items (values)
+		let itemsEl = document.createElement("div");
+		itemsEl.setAttribute("id", this.id + "autocomplete-list");
+		itemsEl.setAttribute("class", "autocomplete-items");
+		// append the div element as a child of the autocomplete container
+		this.parentNode.appendChild(itemsEl);
+		// for each item in array, check if item starts with the same letters as the text field value
+		for (let i = 0; i < coins.length; i++) {
+			// compare substring (of length value) of the coin with the value (letters) entered
+		  if (coins[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+			// create a div element for each matching element:
+			let matchEl = document.createElement("div");
+			// make the matching letters bold:
+			matchEl.innerHTML = "<strong>" + coins[i].substr(0, val.length) + "</strong>";
+			matchEl.innerHTML += coins[i].substr(val.length);
+			// insert a input field that will hold the current array item's value:
+			matchEl.innerHTML += "<input type='hidden' value='" + coins[i] + "'>";
+			// execute a function when someone clicks on the item value (div element):
+			matchEl.addEventListener("click", function(event) {
+				// insert the value for the autocomplete text field:
+				input.value = this.getElementsByTagName("input")[0].value;
+				// close list of autocompleted values, (or any other open lists of autocompleted values)
+				
+			});
+			itemsEl.appendChild(matchEl);
+		  }
+		}
+	});
+}
 
 
 function displayArticles(data) {
@@ -124,6 +176,12 @@ function fetchGraphData() {
 	  console.log(error);
 	});
 };
+
+
+// Autocomplete as seen in   https://www.w3schools.com/howto/howto_js_autocomplete.asp
+// Call autocomplete function before search button is clicked. Pass input and cryptocoin array as arguments.
+autocomplete(document.getElementById("searchInput"), coins);
+
 
 $("#searchButton").on("click", function(event) {
 	event.preventDefault();
