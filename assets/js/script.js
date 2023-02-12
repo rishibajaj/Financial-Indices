@@ -21,6 +21,9 @@ function autocomplete(input, coins) {
 		// variable to store input value
 		var val = this.value;
 
+		//close any already open lists of autocompleted values
+		closeAutocompleteLists();
+
 		// if the input field is empty
 		if (!val) {
 			return false;
@@ -48,11 +51,25 @@ function autocomplete(input, coins) {
 				// insert the value for the autocomplete text field:
 				input.value = this.getElementsByTagName("input")[0].value;
 				// close list of autocompleted values, (or any other open lists of autocompleted values)
-				
+				closeAutocompleteLists();
 			});
 			itemsEl.appendChild(matchEl);
 		  }
 		}
+	});
+
+	function closeAutocompleteLists(elmnt) {
+		// close all autocomplete lists, except the one passed as an argument
+		var item = document.getElementsByClassName("autocomplete-items");
+		for (let i = 0; i < item.length; i++) {
+		  if (elmnt != item[i] && elmnt != input) {
+			item[i].parentNode.removeChild(item[i]);
+		  }
+		}
+	}
+	// execute the function when someone clicks in the document:
+	document.addEventListener("click", function (event) {
+		closeAutocompleteLists(event.target);
 	});
 }
 
