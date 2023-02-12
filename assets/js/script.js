@@ -14,7 +14,8 @@ var coins = ["Bitcoin","Ethereum","Tether","BNB","USD Coin","XRP","Binance USD",
 
 
 function autocomplete(input, coins) {
-	// function takes two arguments: text field element and cryptocoins array
+// function takes two arguments: text field element and cryptocoins array
+	// Current focus on the autocomplete suggestion list
 	var currentFocus;
 	// execute the function when text field is written in
 	input.addEventListener("input", function(event) {
@@ -57,6 +58,50 @@ function autocomplete(input, coins) {
 		  }
 		}
 	});
+
+	// function to select autocomplete suggestions with keyboard:
+	input.addEventListener("keydown", function(event) {
+		var item = document.getElementById(this.id + "autocomplete-list");
+		if (item) {
+			item = item.getElementsByTagName("div");
+		}
+		if (event.keyCode == 40) {
+			// If the arrow DOWN key is pressed, increase the currentFocus variable:
+			currentFocus++;
+			// and make the current item more visible:
+			addActive(item);
+		} else if (event.keyCode == 38) { //up
+			// If the arrow UP key is pressed, decrease the currentFocus variable:
+			currentFocus--;
+			// and and make the current item more visible:
+			addActive(item);
+		} else if (event.keyCode == 13) {
+			// If the ENTER key is pressed, prevent the form from being submitted,
+			event.preventDefault();
+			if (currentFocus > -1) {
+			// and simulate a click on the "active" item:
+			if (item) item[currentFocus].click();
+			}
+		}
+	});
+
+	function addActive(item) {
+		// a function to classify an item as "active":
+		if (!item) return false;
+		// start by removing the "active" class on all items:
+		removeActive(item);
+		if (currentFocus >= item.length) currentFocus = 0;
+		if (currentFocus < 0) currentFocus = (x.length - 1);
+		// add class "autocomplete-active":
+		item[currentFocus].classList.add("autocomplete-active");
+	}
+
+	function removeActive(item) {
+		// a function to remove the "active" class from all autocomplete items:
+		for (let i = 0; i < item.length; i++) {
+		item[i].classList.remove("autocomplete-active");
+		}
+	}
 
 	function closeAutocompleteLists(elmnt) {
 		// close all autocomplete lists, except the one passed as an argument
