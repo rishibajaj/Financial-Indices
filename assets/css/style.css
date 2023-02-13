@@ -26,6 +26,10 @@
     padding: 20px;
 }
 
+tspan {
+  display: none;
+}
+
 .table {
     padding: 20px;
 }
