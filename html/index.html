@@ -54,19 +54,18 @@
         <div class="row">
 
             <!-- Simple Search Form -->
-                    <form class="col-4 search" autocomplete="off" action="/action_page.php">
-                        <div class="form-group">
-                          <label for="search-input">Search:</label>
-                          <input type="text" class="form-control" id="searchInput" name="cryptocoin" placeholder="Cryptocoin">
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="searchButton">Submit</button>
-                      </form>
+            <form class="col-4 search" autocomplete="off" action="/action_page.php">
+                <div class="form-group">
+                    <label for="search-input">Search:</label>
+                    <input type="text" class="form-control" id="searchInput" name="cryptocoin" placeholder="Cryptocoin">
+                </div>
+                <button type="submit" class="btn btn-primary" id="searchButton">Submit</button>
+            </form>
 
             <!-- Main section displaying graph, table and methodologies -->
             <div class="container-fluid" id="index-display">
                 <div class="row">
-                    <div class="col-lg-4 graph">
-                        <img src="#" alt="" width="400" height="400">
+                    <div class="graph" id="chartDiv" style="width: 600px; height: 300px;">
                     </div>
                     <div class="col-lg-8 table">
                         <div class="table-responsive">
@@ -118,14 +117,14 @@
                     </div>
                 </div>
             </div>
-            <div class="container-fluid nyt">          
-                <div class="col-sm-12" id="nyt">        
+            <div class="container-fluid nyt">
+                <div class="col-sm-12" id="nyt">
                     <!-- Articles displayed in a card, just heading and link -->
                     <div class="card">
-                      <!-- card Heading for the retrieved articles box -->
+                        <!-- card Heading for the retrieved articles box -->
                         <h3> NYT Articles</h3>
-                      <!-- This main card will hold each of the resulting articles -->
-                      <div id="article-section" class="card-body"></div>
+                        <!-- This main card will hold each of the resulting articles -->
+                        <div id="article-section" class="card-body"></div>
                     </div>
                 </div>
             </div>
@@ -137,6 +136,8 @@
     <!--script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script-->
+    <!-- JS Charting -->
+    <script src="https://code.jscharting.com/latest/jscharting.js"></script>
     <!-- Popper.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
