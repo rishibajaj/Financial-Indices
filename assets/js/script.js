@@ -12,6 +12,139 @@ var coins = ["Bitcoin", "Ethereum", "Tether", "BNB", "USD Coin", "XRP", "Binance
 	"Algorand", "VeChain", "Internet Computer", "The Graph", "The Sandbox", "Fantom", "Decentraland", "Axie Infinity",
 	"EOS", "Aave", "MultiversX", "Theta Network", "Flow"];
 
+//START of code for stablecoin index////
+//Darwin - Need to use this custom array because stablecoins are not properly categorized
+//stablecoins split into two arrays, this should allow indepth analysis as a nice-to-have feature
+
+var assetBackedCoin = [
+    'equilibrium-eosdt',
+    "stableusd",
+    "tether",
+    "binance-usd",
+    "usd-coin",
+    "true-usd",
+    "usdk",
+    "reserve-rights-token",
+    "stasis-eurs",
+    "pax-gold",
+    "husd",
+    "paxos-standard",
+    "tether-gold",
+    "tether-eurt",
+    "gemini-dollar",
+    "xsgd",
+    "rupiah-token",
+    "reflexer-ungovernance-token",
+    "standard-protocol",
+    "vai",
+    "xaurum",
+    "digix-gold",
+    "digixdao",
+    "perth-mint-gold-token"
+];
+
+var peggedCoin = [
+    "dai",
+    "steem-dollars",
+    "frax",
+    "magic-internet-money",
+    "fei-usd",
+    "tribe-2",
+    "neutrino",
+    "nusd",
+    "liquity-usd",
+    "alchemix-usd",
+    "tor",
+    "straitsx-indonesia-rupiah",
+    "celo-dollar",
+    "bilira",
+    "yusd-stablecoin",
+    "usdx",
+    "reserve",
+    "celo-euro",
+    "origin-dollar",
+    "musd",
+    "basis-cash",
+    "empty-set-dollar",
+    "cryptofranc",
+    "brcp-token"
+];
+
+//globalcap 24H volume needs to be modified by adding the volume of these two coins. Otherwise the 24H volume data is not AS accurate
+var globalCapModifer = [
+    "bitcoin",
+    "ethereum"
+];
+
+//counters begin
+var stablecoinVol = 0
+var globalCapMod = 0
+
+//join 2 stablecoin arrays because they all fall under the stablecoin umbrella
+var stablecoinArr = assetBackedCoin.concat(peggedCoin);
+var joinedStablecoinArr = stablecoinArr.join();
+var joinedGlobalCapModifer = globalCapModifer.join();
+
+
+
+//fetch modifier to the Global Market Volume
+function fetchglobalmod() {
+    $.getJSON("https://api.coingecko.com/api/v3/simple/price?ids="+joinedGlobalCapModifer+"&vs_currencies=usd&include_24hr_vol=true", function(response2){
+                globalCapModifer.forEach(element => {
+                globalCapMod += response2[element].usd_24h_vol;
+            });
+            console.log("global cap mod" , globalCapMod)
+            return globalCapMod
+        })
+        return globalCapMod
+}
+
+
+//Fetch Global Market Volume - response.data.total_volume.usd
+function indexExe() {
+    $.getJSON("https://api.coingecko.com/api/v3/global", function(response){
+    console.log("global cap mod outside function" , globalCapMod) //used to measure how long it took to return fetchglobalmod()
+    let globalCap = response.data.total_volume.usd + globalCapMod;
+    fetchStablecoinTable(globalCap)
+    });
+};
+
+//fetch stablecoin table data then craft Index
+function fetchStablecoinTable(globalCap) {
+	fetch("https://api.coingecko.com/api/v3/simple/price?ids="+joinedStablecoinArr+"&vs_currencies=usd&include_24hr_vol=true")
+	.then((result) => {
+        let stablecoinVol = 0
+        console.log(result);
+	  return result.json();
+	})
+    //need to add up 24H volume of individual coins using a forloop then attach total to var=stablecoinVol
+	.then((result) => {
+        stablecoinArr.forEach(element => {
+            stablecoinVol += result[element].usd_24h_vol;
+            return
+	});
+    //now craft index
+    console.log("stablecoin Volume Total", stablecoinVol)
+    console.log("global volume", globalCap)
+    let num = stablecoinVol/globalCap
+    let n = num.toFixed(2)
+    //attach stats to HTML
+    let bigStatistic = $(".display-4")
+        .text(("Stablecoin Index: "+n));
+    })
+    
+};
+
+
+async function index() {
+    fetchglobalmod()
+    await new Promise(resolve => setTimeout(resolve, 80)); //Darwin - fetchglobalmod() takes about ~20 milliseconds to return result. this is a temp fix. 3 API calls are being made currently but can be reduced to 2 with further refinement.
+    indexExe();
+  }
+  
+index(); ////uncomment to activate, 
+////END of code for stablecoin index////
+
 
 function autocomplete(input, coins) {
 	// function takes two arguments: text field element and cryptocoins array
