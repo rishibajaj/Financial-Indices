@@ -39,11 +39,8 @@
             </div>
         </div>
         <div class="col-lg-3 description">
-            <h2>Paragraph description</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi consequuntur laboriosam commodi explicabo
-                quae ut id, impedit necessitatibus suscipit aperiam numquam reiciendis nisi. Fugiat, voluptates dolorem.
-                Quod pariatur, esse similique, voluptate nam amet voluptatum, magnam dolorum eum enim maiores molestias
-                repellendus asperiores voluptatibus. Suscipit sunt sit modi eos consectetur unde!</p>
+            <h2>Stablecoin Index</h2>
+            <p>24H trading volume of stablecoins vs total volume. The value cannot exceed 1. This figure illustrates the paradigm shift from speculative asset to mainstream adoption as a digital currency.</p>
 
         </div>
 
@@ -68,11 +65,11 @@
             
 
             <!-- Main section displaying graph, table and methodologies -->
-            <div class="container-fluid" id="index-display">
+            <div class="container-fluid hide show" id="index-display">
                 <div class="row">
                     <div class="graph" id="chartDiv" style="width: 600px; height: 300px;">
                     </div>
-                    <div class="col-lg-8 table">
+                    <div class="table" style="width: 600px; height: 300px;">
                         <div class="table-responsive">
                             <table class="table table-bordered custom-table">
                                 <thead>
@@ -103,26 +100,14 @@
                     </div>
                 </div>
             </div>
-            <div class="container-fluid method">
+            <div class="container-fluid method hide show">
                 <div class="col-lg-12" id="methodology">
                     <h3>Methodology</h3>
-                    <div id="index-content">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem saepe
-                        doloribus harum
-                        consectetur quas ab. Laboriosam enim ex nam blanditiis quo delectus doloribus iste, eos officia
-                        quod, incidunt
-                        exercitationem recusandae aut quos sequi modi culpa! Suscipit, eaque illo! Sit sapiente corrupti
-                        sunt voluptates
-                        assumenda, nam inventore cumque, ipsa tempore officia dolore quos nisi voluptatem doloremque ab
-                        delectus minima hic.
-                        Ullam sed veniam non, numquam consequatur consequuntur deserunt dignissimos dolorem. Repellat,
-                        labore enim harum
-                        incidunt voluptatum optio nesciunt, ipsa dolore sequi molestias facilis debitis rerum asperiores
-                        sint quisquam numquam
-                        expedita. Earum vitae deserunt itaque commodi! Laborum ea doloremque voluptas rerum corrupti.
+                    <div id="index-content">24H trading volume of stablecoins are divided by an adjusted total market trading volume from CoinGecko. The margin of error in calculating 24H trading volume exceeds ±49% as demonstrated by the difference between coinmarketcap.com and coingecko.com. It is not clear how Coingecko calculates 24H total market volume and at what interval it is updated, early investigations indicate it may be calculated every ~12 hours, further reducing its value as a source.
                     </div>
                 </div>
             </div>
-            <div class="container-fluid nyt">
+            <div class="container-fluid nyt hide show">
                 <div class="col-sm-12" id="nyt">
                     <!-- Articles displayed in a card, just heading and link -->
                     <div class="card">

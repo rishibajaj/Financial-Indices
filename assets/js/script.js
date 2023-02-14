@@ -453,6 +453,9 @@ autocomplete(document.getElementById("searchInput"), coins);
 $("#searchButton").on("click", function (event) {
 	event.preventDefault();
 
+	$("#index-display").addClass("displayFlex");
+	$(".show").removeClass("hide");
+	
 	articleSection.empty();
 	fetchTableData();
 	fetchGraphData();
