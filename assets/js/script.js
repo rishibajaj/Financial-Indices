@@ -4,6 +4,7 @@ let articleSection = $("#article-section");
 
 let coinURL = "https://api.coingecko.com/api/v3/coins/";
 
+var coinInStore = [];
 // Array with cryptocoins
 var coins = ["Bitcoin", "Ethereum", "Tether", "BNB", "USD Coin", "XRP", "Binance USD", "Cardano", "Dogecoin",
 	"Polygon", "OKB", "Lido Staked Ether", "Solana", "Polkadot", "Shiba Inu", "Litecoin", "TRON", "Avalanche", "Dai",
@@ -146,6 +147,52 @@ index(); ////uncomment to activate,
 ////END of code for stablecoin index////
 
 
+function searchHistory(result) {
+	let coinHis = result[0].name;
+	console.log("history: ", coinHis);
+	// Check if there is any information in storage
+	coinInStore = JSON.parse(localStorage.getItem('coinStored'));
+  
+	if (coinInStore === null) {
+		coinInStore = [];
+	}
+  
+	// Adding city searched to array if it is not already in it
+	if (coinHis !== null && coinHis !== undefined) {
+	  if (!coinInStore.includes(coinHis)) {
+		coinInStore.push(coinHis);
+	  // Stringify and store it
+	  localStorage.setItem('coinStored', JSON.stringify(coinInStore));
+	  }
+	} 
+}
+
+// Displaying list of cryptocoins in history
+function renderCoinHistory() {
+
+	// Deleting the cities list prior to adding new ones not to have repeated buttons
+	$("#history").empty();
+  
+	// Looping through the array of cities
+	for (var i = 0; i < coinInStore.length; i++) {
+	  // If ther is any null do not render it
+	  if (coinInStore[i] === null) {
+		continue;
+	  }
+	  // Dynamicaly generating buttons for each city in the array
+	  var btn = $("<button>");
+	  // Add class of city-btn to our button
+	  btn.addClass("coin-btn");
+	  // Add data-attribute to each button
+	  btn.attr("data-name", coinInStore[i]);
+	  // Provides the initial button text
+	  btn.text(coinInStore[i]);
+	  // Add button to the #history div
+	  $("#history").prepend(btn);
+	}
+}
+  
+
 function autocomplete(input, coins) {
 	// function takes two arguments: text field element and cryptocoins array
 	// Current focus on the autocomplete suggestion list
@@ -179,9 +226,9 @@ function autocomplete(input, coins) {
 				// make the matching letters bold:
 				matchEl.innerHTML = "<strong>" + coins[i].substr(0, val.length) + "</strong>";
 				matchEl.innerHTML += coins[i].substr(val.length);
+				// execute a function when someone clicks on the item value (div element):
 				// insert a input field that will hold the current array item's value:
 				matchEl.innerHTML += "<input type='hidden' value='" + coins[i] + "'>";
-				// execute a function when someone clicks on the item value (div element):
 				matchEl.addEventListener("click", function (event) {
 					// insert the value for the autocomplete text field:
 					input.value = this.getElementsByTagName("input")[0].value;
@@ -254,6 +301,7 @@ function autocomplete(input, coins) {
 
 
 function displayArticles(data) {
+	articleSection.empty();
 	// Display 5 articles related to the cryptocoin of choice
 	for (let i = 0; i < 5; i++) {
 		// Variable to access the articles
@@ -340,6 +388,8 @@ function fetchTableData() {
 			console.log(result);
 			populateTable(result);
 			nyt(result);
+			searchHistory(result);
+			renderCoinHistory();
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -397,7 +447,8 @@ function fetchGraphData() {
 // Autocomplete as seen in   https://www.w3schools.com/howto/howto_js_autocomplete.asp
 // Call autocomplete function before search button is clicked. Pass input and cryptocoin array as arguments.
 autocomplete(document.getElementById("searchInput"), coins);
-
+//searchHistory(result);
+//renderCoinHistory();
 
 $("#searchButton").on("click", function (event) {
 	event.preventDefault();
@@ -409,4 +460,13 @@ $("#searchButton").on("click", function (event) {
 	$("#searchInput").val("")
 });
 
-
+// Adding a click event listener to all elements with a class of "city-btn"
+$(document).on("click", ".coin-btn", function (event) {
+	event.preventDefault();
+	console.log("StoredCoinBtn: ", event.target.innerText);
+	let coin = event.target.innerText.trim();
+	// Calling function to workout geolocation
+	$("#searchInput").val(coin);
+	fetchTableData();
+	fetchGraphData();
+  });
