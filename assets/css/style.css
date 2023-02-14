@@ -13,17 +13,24 @@
     padding: 50px;
 }
 
-#index-section {
-    height: 100vh;
+.search {
+  padding: 0px 30px;
 }
 
-#index-display {
-    padding-top: 50px;
-    padding-bottom: 50px;
+.displayFlex {
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin: auto;
+}
+
+.hide {
+  display: none;
 }
 
 .graph {
-    padding: 20px;
+  padding-top: 50px;
 }
 
 tspan {
@@ -31,7 +38,11 @@ tspan {
 }
 
 .table {
-    padding: 20px;
+    padding: 50px;
+}
+
+th {
+  background-color: #e9ecef;
 }
 
 .method, .nyt {
