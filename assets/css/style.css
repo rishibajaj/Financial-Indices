@@ -158,3 +158,29 @@ body {
   }
   /* Styling autocomplete -End*/
   
+
+input[type="text"] {
+  width: 100%;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid #645979;
+  outline: none;
+  border-radius: 5px 5px 0 0;
+  background-color: white;
+  font-size: 14px;
+}
+ul {
+  list-style:none;
+  align-items: left;
+}
+.list {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 0 0 5px 5px;
+}
+.list-items {
+  padding: 5px;
+}
+.list-items:hover {
+  background-color: whitesmoke;
+}

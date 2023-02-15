@@ -2,17 +2,6 @@ let todaysDate = moment().format("DD-MM-YYYY");
 let formatter = new Intl.NumberFormat('en-US');
 let articleSection = $("#article-section");
 
-let coinURL = "https://api.coingecko.com/api/v3/coins/";
-
-var coinInStore = [];
-// Array with cryptocoins
-var coins = ["Aave", "Algorand", "ApeCoin", "Aptos", "Avalanche", "Axie Infinity", "Binance USD", "Bitcoin", 
-"Bitcoin Cash", "BNB", "Cardano", "Chainlink", "Cosmos Hub", "Cronos", "Dai", "Decentraland", "EOS", "Ethereum", 
-"Ethereum Classic", "Fantom", "Filecoin", "Flow", "Hedera", "Internet Computer", "LEO Token", "Litecoin", 
-"Lido Staked Ether", "Lido DAO", "Monero", "MultiversX", "NEAR Protocol", "OKB", "Polygon", "Quant", "Shiba Inu", 
-"Solana", "Stellar", "Tether", "The Graph", "The Sandbox", "Theta Network", "Toncoin", "TRON", "Uniswap", 
-"USD Coin", "VeChain", "Wrapped Bitcoin", "XRP"];
-
 //START of code for stablecoin index////
 //Darwin - Need to use this custom array because stablecoins are not properly categorized
 //stablecoins split into two arrays, this should allow indepth analysis as a nice-to-have feature
@@ -88,6 +77,65 @@ var joinedStablecoinArr = stablecoinArr.join();
 console.log("joinedStablecoinArr: ", joinedStablecoinArr);
 var joinedGlobalCapModifer = globalCapModifer.join();
 
+let coinURL = "https://api.coingecko.com/api/v3/coins/";
+
+// Array with cryptocoins
+//let coins = [];
+
+function fetchCoins() {
+  fetch(coinURL)
+    .then((respose) => respose.json())
+    .then((data) => {
+      coins = document.createElement("coins");
+      coins.text = data.map((x) => x.name);
+      coins.value = data.map((x) => x.id);
+    });
+}
+//pull data from API
+fetchCoins();
+
+let input = document.getElementById("searchInput");
+
+//Execute function on keyup
+input.addEventListener("keyup", (e) => {
+  //loop through above array
+  //Initially remove all elements
+  removeElements();
+  for (let i of coins.value) {
+    //convert input to lowercase and compare with each string
+
+    if (
+      i.toLowerCase().startsWith(input.value.toLowerCase()) &&
+      input.value != ""
+    ) {
+      //create li element
+      let listItem = document.createElement("li");
+      //One common class name
+      listItem.classList.add("list-items");
+      listItem.style.cursor = "pointer";
+      listItem.setAttribute("onclick", "displayNames('" + i + "')");
+      //Display matched part in bold
+      let word = "<b>" + i.substr(0, input.value.length) + "</b>";
+      word += i.substr(input.value.length);
+      //display the value in array
+      listItem.innerHTML = word;
+      document.querySelector(".list").appendChild(listItem);
+    }
+  }
+});
+
+function displayNames(value) {
+  input.value = value;
+  removeElements();
+}
+
+function removeElements() {
+  //clear all the item
+  let items = document.querySelectorAll(".list-items");
+  items.forEach((item) => {
+    item.remove();
+  });
+}
 
 
 //fetch modifier to the Global Market Volume
@@ -472,7 +520,7 @@ function fetchGraphData() {
 
 // Autocomplete as seen in   https://www.w3schools.com/howto/howto_js_autocomplete.asp
 // Call autocomplete function before search button is clicked. Pass input and cryptocoin array as arguments.
-autocomplete(document.getElementById("searchInput"), stablecoinArr);
+//autocomplete(document.getElementById("searchInput"), stablecoinArr);
 //searchHistory(result);
 //renderCoinHistory();
 
