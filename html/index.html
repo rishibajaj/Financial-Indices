@@ -15,33 +15,20 @@
 </head>
 
 <body>
-    <!-- Collapsable nav bar -->
-    <nav class="customNav navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#"><img src="">Logo?</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="1-homepage.html">Home <span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
     <!-- Header -->
     <header class="row header">
         <div class="jumbotron jumbotron-fluid col-lg-9 index">
             <div class="container">
-                <h1 class="display-4">BIG statistic</h1>
+                <h1 class="display-4"></h1>
             </div>
         </div>
         <div class="col-lg-3 description">
             <h2>Stablecoin Index</h2>
-            <p>24H trading volume of stablecoins vs total volume. The value cannot exceed 1. This figure illustrates the paradigm shift from speculative asset to mainstream adoption as a digital currency.</p>
-
+            <p>24H trading volume of stablecoins vs total volume. The value
+                cannot exceed 1.</p>
+            <p>This figure illustrates the paradigm shift
+                from speculative asset to mainstream adoption as a digital
+                currency.</p>
         </div>
 
     </header>
@@ -59,7 +46,7 @@
                 <button type="submit" class="btn btn-primary" id="searchButton">Submit</button>
             </form>
 
-            <!-- Main section displaying graph, table and methodologies -->
+            <!-- Section displaying graph and table -->
             <div class="container-fluid hide show" id="index-display">
                 <div class="row">
                     <div class="graph" id="chartDiv" style="width: 600px; height: 300px;">
@@ -95,13 +82,20 @@
                     </div>
                 </div>
             </div>
+            <!-- Section displaying methodology -->
             <div class="container-fluid method hide show">
                 <div class="col-lg-12" id="methodology">
                     <h3>Methodology</h3>
-                    <div id="index-content">24H trading volume of stablecoins are divided by an adjusted total market trading volume from CoinGecko. The margin of error in calculating 24H trading volume exceeds ±49% as demonstrated by the difference between coinmarketcap.com and coingecko.com. It is not clear how Coingecko calculates 24H total market volume and at what interval it is updated, early investigations indicate it may be calculated every ~12 hours, further reducing its value as a source.
+                    <div id="index-content">24H trading volume of stablecoins are divided by an adjusted total market
+                        trading volume from CoinGecko. The margin of error in calculating 24H trading volume exceeds
+                        ±49% as demonstrated by the difference between coinmarketcap.com and coingecko.com. It is not
+                        clear how Coingecko calculates 24H total market volume and at what interval it is updated, early
+                        investigations indicate it may be calculated every ~12 hours, further reducing its value as a
+                        source.
                     </div>
                 </div>
             </div>
+            <!-- Section displaying NYT articles -->
             <div class="container-fluid nyt hide show">
                 <div class="col-sm-12" id="nyt">
                     <!-- Articles displayed in a card, just heading and link -->
