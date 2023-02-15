@@ -543,13 +543,20 @@ $(document).on("click", ".coin-btn", function (event) {
 
 	$("#index-display").addClass("displayFlex");
 	$(".show").removeClass("hide");
-	
+
 	console.log("StoredCoinBtn: ", event.target.innerText);
 	let coin = event.target.innerText.trim();
 	// Calling function to workout geolocation
 	$("#searchInput").val(coin);
 	fetchTableData();
 	fetchGraphData();
+});
+
+//click event listener on search field to clear it when performing new search
+$("#searchInput").on("click", function (event) {
+	event.preventDefault();
+
+	$("#searchInput").val("")
 });
 
 //render search history to the page on start up
