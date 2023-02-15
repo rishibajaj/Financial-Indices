@@ -235,7 +235,7 @@ function renderCoinHistory(coinInStore) {
 		// Dynamicaly generating buttons for each city in the array
 		var btn = $("<button>");
 		// Add class of city-btn to our button
-		btn.addClass("coin-btn");
+		btn.addClass("btn btn-primary coin-btn");
 		// Add data-attribute to each button
 		btn.attr("data-name", coinInStore[i]);
 		// Provides the initial button text
