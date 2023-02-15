@@ -6,12 +6,12 @@ let coinURL = "https://api.coingecko.com/api/v3/coins/";
 
 var coinInStore = [];
 // Array with cryptocoins
-var coins = ["Bitcoin", "Ethereum", "Tether", "BNB", "USD Coin", "XRP", "Binance USD", "Cardano", "Dogecoin",
-	"Polygon", "OKB", "Lido Staked Ether", "Solana", "Polkadot", "Shiba Inu", "Litecoin", "TRON", "Avalanche", "Dai",
-	"Uniswap", "Cosmos Hub", "Wrapped Bitcoin", "Chainlink", "Toncoin", "LEO Token", "Ethereum Classic", "Monero",
-	"Bitcoin Cash", "Hedera", "Stellar", "Aptos", "Lido DAO", "Filecoin", "ApeCoin", "Cronos", "Quant", "NEAR Protocol",
-	"Algorand", "VeChain", "Internet Computer", "The Graph", "The Sandbox", "Fantom", "Decentraland", "Axie Infinity",
-	"EOS", "Aave", "MultiversX", "Theta Network", "Flow"];
+var coins = ["Aave", "Algorand", "ApeCoin", "Aptos", "Avalanche", "Axie Infinity", "Binance USD", "Bitcoin", 
+"Bitcoin Cash", "BNB", "Cardano", "Chainlink", "Cosmos Hub", "Cronos", "Dai", "Decentraland", "EOS", "Ethereum", 
+"Ethereum Classic", "Fantom", "Filecoin", "Flow", "Hedera", "Internet Computer", "LEO Token", "Litecoin", 
+"Lido Staked Ether", "Lido DAO", "Monero", "MultiversX", "NEAR Protocol", "OKB", "Polygon", "Quant", "Shiba Inu", 
+"Solana", "Stellar", "Tether", "The Graph", "The Sandbox", "Theta Network", "Toncoin", "TRON", "Uniswap", 
+"USD Coin", "VeChain", "Wrapped Bitcoin", "XRP"];
 
 //START of code for stablecoin index////
 //Darwin - Need to use this custom array because stablecoins are not properly categorized
@@ -83,7 +83,9 @@ var globalCapMod = 0
 
 //join 2 stablecoin arrays because they all fall under the stablecoin umbrella
 var stablecoinArr = assetBackedCoin.concat(peggedCoin);
+console.log("stablecoinArr: ", stablecoinArr);
 var joinedStablecoinArr = stablecoinArr.join();
+console.log("joinedStablecoinArr: ", joinedStablecoinArr);
 var joinedGlobalCapModifer = globalCapModifer.join();
 
 
@@ -149,7 +151,7 @@ index(); ////uncomment to activate,
 
 function searchHistory(result) {
 	let coinHis = result[0].name;
-	console.log("history: ", coinHis);
+	console.log("-----history------: ", coinHis);
 	// Check if there is any information in storage
 	coinInStore = JSON.parse(localStorage.getItem('coinStored'));
   
@@ -161,6 +163,9 @@ function searchHistory(result) {
 	if (coinHis !== null && coinHis !== undefined) {
 	  if (!coinInStore.includes(coinHis)) {
 		coinInStore.push(coinHis);
+		if (coinInStore.length > 5) {
+			coinInStore.shift();
+		}
 	  // Stringify and store it
 	  localStorage.setItem('coinStored', JSON.stringify(coinInStore));
 	  }
@@ -193,7 +198,7 @@ function renderCoinHistory() {
 }
   
 
-function autocomplete(input, coins) {
+function autocomplete(input, stablecoinArr) {
 	// function takes two arguments: text field element and cryptocoins array
 	// Current focus on the autocomplete suggestion list
 	var currentFocus;
@@ -201,7 +206,7 @@ function autocomplete(input, coins) {
 	input.addEventListener("input", function (event) {
 		// variable to store input value
 		var val = this.value;
-		console.log(val);
+		console.log("Autocomplete: ", val);
 
 		//close any already open lists of autocompleted values
 		closeAutocompleteLists();
@@ -218,17 +223,17 @@ function autocomplete(input, coins) {
 		// append the div element as a child of the autocomplete container
 		this.parentNode.appendChild(itemsEl);
 		// for each item in array, check if item starts with the same letters as the text field value
-		for (let i = 0; i < coins.length; i++) {
+		for (let i = 0; i < stablecoinArr.length; i++) {
 			// compare substring (of length value) of the coin with the value (letters) entered
-			if (coins[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+			if (stablecoinArr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
 				// create a div element for each matching element:
 				let matchEl = document.createElement("div");
 				// make the matching letters bold:
-				matchEl.innerHTML = "<strong>" + coins[i].substr(0, val.length) + "</strong>";
-				matchEl.innerHTML += coins[i].substr(val.length);
+				matchEl.innerHTML = "<strong>" + stablecoinArr[i].substr(0, val.length) + "</strong>";
+				matchEl.innerHTML += stablecoinArr[i].substr(val.length);
 				// execute a function when someone clicks on the item value (div element):
 				// insert a input field that will hold the current array item's value:
-				matchEl.innerHTML += "<input type='hidden' value='" + coins[i] + "'>";
+				matchEl.innerHTML += "<input type='hidden' value='" + stablecoinArr[i] + "'>";
 				matchEl.addEventListener("click", function (event) {
 					// insert the value for the autocomplete text field:
 					input.value = this.getElementsByTagName("input")[0].value;
@@ -272,7 +277,7 @@ function autocomplete(input, coins) {
 		// start by removing the "active" class on all items:
 		removeActive(item);
 		if (currentFocus >= item.length) currentFocus = 0;
-		if (currentFocus < 0) currentFocus = (x.length - 1);
+		if (currentFocus < 0) currentFocus = (item.length - 1);
 		// add class "autocomplete-active":
 		item[currentFocus].classList.add("autocomplete-active");
 	}
@@ -296,6 +301,7 @@ function autocomplete(input, coins) {
 	// execute the function when someone clicks in the document:
 	document.addEventListener("click", function (event) {
 		closeAutocompleteLists(event.target);
+		
 	});
 }
 
@@ -306,18 +312,37 @@ function displayArticles(data) {
 	for (let i = 0; i < 5; i++) {
 		// Variable to access the articles
 		const article = data.response.docs[i];
+		
+		console.log("Article: ", article);
 		// Create list of articles
 		let articleList = $("<ul>");
 		articleSection.append(articleList);
 		let articleListItem = $("<li>");
-		// Create article headline, publication date, abstract and url link
-		articleListItem.append("<h4> " + article.headline.main + "</h4>");
-		articleListItem.append("<p> " + article.pub_date + "</p>");
-		articleListItem.append("<p>" + article.abstract + "</p>");
-		articleListItem.append("<a href='" + article.web_url + "'>" + article.web_url + "</a>");
+		if (article === undefined) {
+			if (i === 0) {
+				articleListItem.append("<h4>NYT does not contain any article related to the cryptocoin searched<h4>");
+				// Append the article to article list
+				articleList.append(articleListItem);
+				break;
+			} else {
+				articleListItem.append("<h4>NYT does not contain any more articles related to the cryptocoin searched<h4>");
+				// Append the article to article list
+				articleList.append(articleListItem);
+				break;
+			}
 
-		// Append the article to article list
-		articleList.append(articleListItem);
+		} else {
+			// Create article headline, publication date, abstract and url link
+			articleListItem.append("<h4> " + article.headline.main + "</h4>");
+			articleListItem.append("<p> " + article.pub_date + "</p>");
+			articleListItem.append("<p>" + article.abstract + "</p>");
+			articleListItem.append("<a href='" + article.web_url + "'>" + article.web_url + "</a>");
+			// Append the article to article list
+			articleList.append(articleListItem);
+		}
+
+
+
 
 	}
 }
@@ -333,10 +358,10 @@ function buildQueryURL(result) {
 	var queryPrmts = { "api-key": "R1a31F4tBjCUaM2ho8GtIFsrSdtXt30M" };
 
 	// Get the search input and add to the object being constructed
-	queryPrmts.q = result[0].name;
+	queryPrmts.q = result[0].id;
 
 	// console.log API URL constructed for troubleshooting
-	console.log("-------API URL--------\nURL: " + queryURL + $.param(queryPrmts) + "\n----------------------");
+	console.log("-------NYT API URL--------\nURL: " + queryURL + $.param(queryPrmts) + "\n----------------------");
 	// Return the URL of the query
 	var query = queryURL + $.param(queryPrmts);
 	return query;
@@ -350,6 +375,7 @@ function nyt(result) {
 		url: queryURL,
 		method: "GET"
 	}).then(function (response) {
+		console.log("response nyt: ", response);
 		displayArticles(response);
 	});
 }
@@ -374,7 +400,7 @@ function populateTable(result) {
 };
 
 function fetchTableData() {
-	const searchInput = $("#searchInput").val().toLowerCase();
+	const searchInput = $("#searchInput").val();
 
 	console.log(searchInput);
 
@@ -446,7 +472,7 @@ function fetchGraphData() {
 
 // Autocomplete as seen in   https://www.w3schools.com/howto/howto_js_autocomplete.asp
 // Call autocomplete function before search button is clicked. Pass input and cryptocoin array as arguments.
-autocomplete(document.getElementById("searchInput"), coins);
+autocomplete(document.getElementById("searchInput"), stablecoinArr);
 //searchHistory(result);
 //renderCoinHistory();
 
@@ -463,7 +489,7 @@ $("#searchButton").on("click", function (event) {
 	$("#searchInput").val("")
 });
 
-// Adding a click event listener to all elements with a class of "city-btn"
+// Adding a click event listener to all elements with a class of "coin-btn"
 $(document).on("click", ".coin-btn", function (event) {
 	event.preventDefault();
 	console.log("StoredCoinBtn: ", event.target.innerText);

@@ -51,18 +51,19 @@
         <div class="row">
 
             <!-- Simple Search Form -->
-            <form class="col-4 search" autocomplete="off" action="/action_page.php">
-                <div class="form-group">
-                    <label for="search-input">Search:</label>
-                    <input type="text" class="form-control" id="searchInput" name="cryptocoin" placeholder="Cryptocoin">
+            <div class="col-4">
+                <form class="search" autocomplete="off" action="/action_page.php">
+                    <div class="form-group">
+                        <label for="search-input">Search:</label>
+                        <input type="text" class="form-control" id="searchInput" name="cryptocoin" placeholder="Cryptocoin">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="searchButton">Submit</button>
+                </form>
+                <div class="list-group">
+                    <h4>Last Five Searches:</h4>
+                    <div id="history"></div>
                 </div>
-                <button type="submit" class="btn btn-primary" id="searchButton">Submit</button>
-            </form>
-            <div class="list-group">
-                <h3>Last Five Searches:</h3>
-                <div id="history"></div>
             </div>
-            
 
             <!-- Main section displaying graph, table and methodologies -->
             <div class="container-fluid hide show" id="index-display">
