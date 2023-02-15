@@ -7,63 +7,63 @@ let articleSection = $("#article-section");
 //stablecoins split into two arrays, this should allow indepth analysis as a nice-to-have feature
 
 var assetBackedCoin = [
-    'equilibrium-eosdt',
-    "stableusd",
-    "tether",
-    "binance-usd",
-    "usd-coin",
-    "true-usd",
-    "usdk",
-    "reserve-rights-token",
-    "stasis-eurs",
-    "pax-gold",
-    "husd",
-    "paxos-standard",
-    "tether-gold",
-    "tether-eurt",
-    "gemini-dollar",
-    "xsgd",
-    "rupiah-token",
-    "reflexer-ungovernance-token",
-    "standard-protocol",
-    "vai",
-    "xaurum",
-    "digix-gold",
-    "digixdao",
-    "perth-mint-gold-token"
+	'equilibrium-eosdt',
+	"stableusd",
+	"tether",
+	"binance-usd",
+	"usd-coin",
+	"true-usd",
+	"usdk",
+	"reserve-rights-token",
+	"stasis-eurs",
+	"pax-gold",
+	"husd",
+	"paxos-standard",
+	"tether-gold",
+	"tether-eurt",
+	"gemini-dollar",
+	"xsgd",
+	"rupiah-token",
+	"reflexer-ungovernance-token",
+	"standard-protocol",
+	"vai",
+	"xaurum",
+	"digix-gold",
+	"digixdao",
+	"perth-mint-gold-token"
 ];
 
 var peggedCoin = [
-    "dai",
-    "steem-dollars",
-    "frax",
-    "magic-internet-money",
-    "fei-usd",
-    "tribe-2",
-    "neutrino",
-    "nusd",
-    "liquity-usd",
-    "alchemix-usd",
-    "tor",
-    "straitsx-indonesia-rupiah",
-    "celo-dollar",
-    "bilira",
-    "yusd-stablecoin",
-    "usdx",
-    "reserve",
-    "celo-euro",
-    "origin-dollar",
-    "musd",
-    "basis-cash",
-    "empty-set-dollar",
-    "cryptofranc",
-    "brcp-token"
+	"dai",
+	"steem-dollars",
+	"frax",
+	"magic-internet-money",
+	"fei-usd",
+	"tribe-2",
+	"neutrino",
+	"nusd",
+	"liquity-usd",
+	"alchemix-usd",
+	"tor",
+	"straitsx-indonesia-rupiah",
+	"celo-dollar",
+	"bilira",
+	"yusd-stablecoin",
+	"usdx",
+	"reserve",
+	"celo-euro",
+	"origin-dollar",
+	"musd",
+	"basis-cash",
+	"empty-set-dollar",
+	"cryptofranc",
+	"brcp-token"
 ];
 
 //globalcap 24H volume needs to be modified by adding the volume of these two coins. Otherwise the 24H volume data is not AS accurate
 var globalCapModifer = [
-    "bitcoin",
-    "ethereum"
+	"bitcoin",
+	"ethereum"
 ];
 
 //counters begin
@@ -83,13 +83,13 @@ let coinURL = "https://api.coingecko.com/api/v3/coins/";
 //let coins = [];
 
 function fetchCoins() {
-  fetch(coinURL)
-    .then((respose) => respose.json())
-    .then((data) => {
-      coins = document.createElement("coins");
-      coins.text = data.map((x) => x.name);
-      coins.value = data.map((x) => x.id);
-    });
+	fetch(coinURL)
+		.then((respose) => respose.json())
+		.then((data) => {
+			coins = document.createElement("coins");
+			coins.text = data.map((x) => x.name);
+			coins.value = data.map((x) => x.id);
+		});
 }
 //pull data from API
 fetchCoins();
@@ -98,101 +98,101 @@ let input = document.getElementById("searchInput");
 
 //Execute function on keyup
 input.addEventListener("keyup", (e) => {
-  //loop through above array
-  //Initially remove all elements
-  removeElements();
-  for (let i of coins.value) {
-    //convert input to lowercase and compare with each string
+	//loop through above array
+	//Initially remove all elements
+	removeElements();
+	for (let i of coins.value) {
+		//convert input to lowercase and compare with each string
 
-    if (
-      i.toLowerCase().startsWith(input.value.toLowerCase()) &&
-      input.value != ""
-    ) {
-      //create li element
-      let listItem = document.createElement("li");
-      //One common class name
-      listItem.classList.add("list-items");
-      listItem.style.cursor = "pointer";
-      listItem.setAttribute("onclick", "displayNames('" + i + "')");
-      //Display matched part in bold
-      let word = "<b>" + i.substr(0, input.value.length) + "</b>";
-      word += i.substr(input.value.length);
-      //display the value in array
-      listItem.innerHTML = word;
-      document.querySelector(".list").appendChild(listItem);
-    }
-  }
+		if (
+			i.toLowerCase().startsWith(input.value.toLowerCase()) &&
+			input.value != ""
+		) {
+			//create li element
+			let listItem = document.createElement("li");
+			//One common class name
+			listItem.classList.add("list-items");
+			listItem.style.cursor = "pointer";
+			listItem.setAttribute("onclick", "displayNames('" + i + "')");
+			//Display matched part in bold
+			let word = "<b>" + i.substr(0, input.value.length) + "</b>";
+			word += i.substr(input.value.length);
+			//display the value in array
+			listItem.innerHTML = word;
+			document.querySelector(".list").appendChild(listItem);
+		}
+	}
 });
 
 function displayNames(value) {
-  input.value = value;
-  removeElements();
+	input.value = value;
+	removeElements();
 }
 
 function removeElements() {
-  //clear all the item
-  let items = document.querySelectorAll(".list-items");
-  items.forEach((item) => {
-    item.remove();
-  });
+	//clear all the item
+	let items = document.querySelectorAll(".list-items");
+	items.forEach((item) => {
+		item.remove();
+	});
 }
 
 
 //fetch modifier to the Global Market Volume
 function fetchglobalmod() {
-    $.getJSON("https://api.coingecko.com/api/v3/simple/price?ids="+joinedGlobalCapModifer+"&vs_currencies=usd&include_24hr_vol=true", function(response2){
-                globalCapModifer.forEach(element => {
-                globalCapMod += response2[element].usd_24h_vol;
-            });
-            console.log("global cap mod" , globalCapMod)
-            return globalCapMod
-        })
-        return globalCapMod
+	$.getJSON("https://api.coingecko.com/api/v3/simple/price?ids=" + joinedGlobalCapModifer + "&vs_currencies=usd&include_24hr_vol=true", function (response2) {
+		globalCapModifer.forEach(element => {
+			globalCapMod += response2[element].usd_24h_vol;
+		});
+		console.log("global cap mod", globalCapMod)
+		return globalCapMod
+	})
+	return globalCapMod
 }
 
 
 //Fetch Global Market Volume - response.data.total_volume.usd
 function indexExe() {
-    $.getJSON("https://api.coingecko.com/api/v3/global", function(response){
-    console.log("global cap mod outside function" , globalCapMod) //used to measure how long it took to return fetchglobalmod()
-    let globalCap = response.data.total_volume.usd + globalCapMod;
-    fetchStablecoinTable(globalCap)
-    });
+	$.getJSON("https://api.coingecko.com/api/v3/global", function (response) {
+		console.log("global cap mod outside function", globalCapMod) //used to measure how long it took to return fetchglobalmod()
+		let globalCap = response.data.total_volume.usd + globalCapMod;
+		fetchStablecoinTable(globalCap)
+	});
 };
 
 //fetch stablecoin table data then craft Index
 function fetchStablecoinTable(globalCap) {
-	fetch("https://api.coingecko.com/api/v3/simple/price?ids="+joinedStablecoinArr+"&vs_currencies=usd&include_24hr_vol=true")
-	.then((result) => {
-        let stablecoinVol = 0
-        console.log(result);
-	  return result.json();
-	})
-    //need to add up 24H volume of individual coins using a forloop then attach total to var=stablecoinVol
-	.then((result) => {
-        stablecoinArr.forEach(element => {
-            stablecoinVol += result[element].usd_24h_vol;
-            return
-	});
-    //now craft index
-    console.log("stablecoin Volume Total", stablecoinVol)
-    console.log("global volume", globalCap)
-    let num = stablecoinVol/globalCap
-    let n = num.toFixed(2)
-    //attach stats to HTML
-    let bigStatistic = $(".display-4")
-        .text(("Stablecoin Index: "+n));
-    })
-    
+	fetch("https://api.coingecko.com/api/v3/simple/price?ids=" + joinedStablecoinArr + "&vs_currencies=usd&include_24hr_vol=true")
+		.then((result) => {
+			let stablecoinVol = 0
+			console.log(result);
+			return result.json();
+		})
+		//need to add up 24H volume of individual coins using a forloop then attach total to var=stablecoinVol
+		.then((result) => {
+			stablecoinArr.forEach(element => {
+				stablecoinVol += result[element].usd_24h_vol;
+				return
+			});
+			//now craft index
+			console.log("stablecoin Volume Total", stablecoinVol)
+			console.log("global volume", globalCap)
+			let num = stablecoinVol / globalCap
+			let n = num.toFixed(2)
+			//attach stats to HTML
+			let bigStatistic = $(".display-4")
+				.text(("Stablecoin Index: " + n));
+		})
+
 };
 
 
 async function index() {
-    fetchglobalmod()
-    await new Promise(resolve => setTimeout(resolve, 80)); //Darwin - fetchglobalmod() takes about ~20 milliseconds to return result. this is a temp fix. 3 API calls are being made currently but can be reduced to 2 with further refinement.
-    indexExe();
-  }
-  
+	fetchglobalmod()
+	await new Promise(resolve => setTimeout(resolve, 80)); //Darwin - fetchglobalmod() takes about ~20 milliseconds to return result. this is a temp fix. 3 API calls are being made currently but can be reduced to 2 with further refinement.
+	indexExe();
+}
+
 index(); ////uncomment to activate, 
 ////END of code for stablecoin index////
 
@@ -202,49 +202,49 @@ function searchHistory(result) {
 	console.log("-----history------: ", coinHis);
 	// Check if there is any information in storage
 	coinInStore = JSON.parse(localStorage.getItem('coinStored'));
-  
+
 	if (coinInStore === null) {
 		coinInStore = [];
 	}
-  
+
 	// Adding city searched to array if it is not already in it
 	if (coinHis !== null && coinHis !== undefined) {
-	  if (!coinInStore.includes(coinHis)) {
-		coinInStore.push(coinHis);
-		if (coinInStore.length > 5) {
-			coinInStore.shift();
+		if (!coinInStore.includes(coinHis)) {
+			coinInStore.push(coinHis);
+			if (coinInStore.length > 5) {
+				coinInStore.shift();
+			}
+			// Stringify and store it
+			localStorage.setItem('coinStored', JSON.stringify(coinInStore));
 		}
-	  // Stringify and store it
-	  localStorage.setItem('coinStored', JSON.stringify(coinInStore));
-	  }
-	} 
+	}
 }
 
 // Displaying list of cryptocoins in history
-function renderCoinHistory() {
+function renderCoinHistory(coinInStore) {
 
 	// Deleting the cities list prior to adding new ones not to have repeated buttons
 	$("#history").empty();
-  
+
 	// Looping through the array of cities
 	for (var i = 0; i < coinInStore.length; i++) {
-	  // If ther is any null do not render it
-	  if (coinInStore[i] === null) {
-		continue;
-	  }
-	  // Dynamicaly generating buttons for each city in the array
-	  var btn = $("<button>");
-	  // Add class of city-btn to our button
-	  btn.addClass("coin-btn");
-	  // Add data-attribute to each button
-	  btn.attr("data-name", coinInStore[i]);
-	  // Provides the initial button text
-	  btn.text(coinInStore[i]);
-	  // Add button to the #history div
-	  $("#history").prepend(btn);
+		// If ther is any null do not render it
+		if (coinInStore[i] === null) {
+			continue;
+		}
+		// Dynamicaly generating buttons for each city in the array
+		var btn = $("<button>");
+		// Add class of city-btn to our button
+		btn.addClass("btn btn-primary coin-btn");
+		// Add data-attribute to each button
+		btn.attr("data-name", coinInStore[i]);
+		// Provides the initial button text
+		btn.text(coinInStore[i]);
+		// Add button to the #history div
+		$("#history").prepend(btn);
 	}
 }
-  
+
 
 function autocomplete(input, stablecoinArr) {
 	// function takes two arguments: text field element and cryptocoins array
@@ -349,7 +349,7 @@ function autocomplete(input, stablecoinArr) {
 	// execute the function when someone clicks in the document:
 	document.addEventListener("click", function (event) {
 		closeAutocompleteLists(event.target);
-		
+
 	});
 }
 
@@ -360,7 +360,7 @@ function displayArticles(data) {
 	for (let i = 0; i < 5; i++) {
 		// Variable to access the articles
 		const article = data.response.docs[i];
-		
+
 		console.log("Article: ", article);
 		// Create list of articles
 		let articleList = $("<ul>");
@@ -463,7 +463,7 @@ function fetchTableData() {
 			populateTable(result);
 			nyt(result);
 			searchHistory(result);
-			renderCoinHistory();
+			renderCoinHistory(coinInStore);
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -529,7 +529,7 @@ $("#searchButton").on("click", function (event) {
 
 	$("#index-display").addClass("displayFlex");
 	$(".show").removeClass("hide");
-	
+
 	articleSection.empty();
 	fetchTableData();
 	fetchGraphData();
@@ -540,10 +540,32 @@ $("#searchButton").on("click", function (event) {
 // Adding a click event listener to all elements with a class of "coin-btn"
 $(document).on("click", ".coin-btn", function (event) {
 	event.preventDefault();
+
+	$("#index-display").addClass("displayFlex");
+	$(".show").removeClass("hide");
+
 	console.log("StoredCoinBtn: ", event.target.innerText);
 	let coin = event.target.innerText.trim();
 	// Calling function to workout geolocation
 	$("#searchInput").val(coin);
 	fetchTableData();
 	fetchGraphData();
-  });
+});
+
+//click event listener on search field to clear it when performing new search
+$("#searchInput").on("click", function (event) {
+	event.preventDefault();
+
+	$("#searchInput").val("")
+});
+
+//render search history to the page on start up
+function init() {
+	let coinInStore = JSON.parse(localStorage.getItem('coinStored'));
+	if (coinInStore !== null) {
+		renderCoinHistory(coinInStore);
+	}
+}
+
+init();
+
