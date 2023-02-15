@@ -38,8 +38,7 @@
         <div class="row">
 
             <!-- Simple Search Form -->
-            <div class="col-4">
-                <form class="search" autocomplete="off" action="/action_page.php">
+            <div class="col-4 search" autocomplete="off" action="/action_page.php">
                     <div class="form-group">
                         <label for="search-input">Search:</label>
                         <input type="text" class="form-control" id="searchInput" name="cryptocoin" placeholder="Cryptocoin">
@@ -47,6 +46,8 @@
                     </div>
                     <button type="submit" class="btn btn-primary" id="searchButton">Submit</button>
                 </form>
+
+                <!-- Search History -->
                 <div class="list-group">
                     <h4>Last Five Searches:</h4>
                     <div id="history"></div>
