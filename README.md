@@ -29,10 +29,10 @@ Here is a gif showing the functionality of the deployed application:
 
 ## Our Learnings 
 We collaborated and learned to use:
-- Used API feeds successfully
-- Used JS Graphs Library 
-- Used GitHub Project and followed Agile methodology
-- Used of JS Fetch for APIs and JSON to traverse the data
+- API feeds successfully
+- JavaScript Graphs Library
+- GitHub Project and followed Agile methodology
+- JavaScript Fetch for APIs and traverse JSON data structure 
 - Created Drop Down List using API and implemented Autocomplete
 
 
