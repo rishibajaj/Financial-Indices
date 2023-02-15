@@ -150,7 +150,7 @@ index(); ////uncomment to activate,
 
 
 function searchHistory(result) {
-	let coinHis = result[0].name;
+	let coinHis = result[0].id;
 	console.log("-----history------: ", coinHis);
 	// Check if there is any information in storage
 	coinInStore = JSON.parse(localStorage.getItem('coinStored'));
