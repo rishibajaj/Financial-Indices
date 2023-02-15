@@ -27,9 +27,17 @@ Here is a gif showing the functionality of the deployed application:
 
 ![Gif of the stablecoin index](assets/images/indexOne.gif)
 
-## License 
+## Our Learnings 
+We collaborated and learned to use:
+- Used API feeds successfully
+- Used JS Graphs Library 
+- Used GitHub Project and followed Agile methodology
+- Used of JS Fetch for APIs and JSON to traverse the data
+- Created Drop Down List using API and implemented Autocomplete
 
-Please refer to the license in the repo.
+
+## License 
+MIT License.
 
 ## Credits
 
