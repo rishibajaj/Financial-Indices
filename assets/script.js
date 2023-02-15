@@ -6,7 +6,7 @@ let articleSection = $("#article-section");
 //Darwin - Need to use this custom array because stablecoins are not properly categorized
 //stablecoins split into two arrays, this should allow indepth analysis as a nice-to-have feature
 
-var assetBackedCoin = [
+let assetBackedCoin = [
 	'equilibrium-eosdt',
 	"stableusd",
 	"tether",
@@ -33,7 +33,7 @@ var assetBackedCoin = [
 	"perth-mint-gold-token"
 ];
 
-var peggedCoin = [
+let peggedCoin = [
 	"dai",
 	"steem-dollars",
 	"frax",
@@ -61,21 +61,21 @@ var peggedCoin = [
 ];
 
 //globalcap 24H volume needs to be modified by adding the volume of these two coins. Otherwise the 24H volume data is not AS accurate
-var globalCapModifer = [
+let globalCapModifer = [
 	"bitcoin",
 	"ethereum"
 ];
 
 //counters begin
-var stablecoinVol = 0
-var globalCapMod = 0
+let stablecoinVol = 0
+let globalCapMod = 0
 
 //join 2 stablecoin arrays because they all fall under the stablecoin umbrella
-var stablecoinArr = assetBackedCoin.concat(peggedCoin);
+let stablecoinArr = assetBackedCoin.concat(peggedCoin);
 console.log("stablecoinArr: ", stablecoinArr);
-var joinedStablecoinArr = stablecoinArr.join();
+let joinedStablecoinArr = stablecoinArr.join();
 console.log("joinedStablecoinArr: ", joinedStablecoinArr);
-var joinedGlobalCapModifer = globalCapModifer.join();
+let joinedGlobalCapModifer = globalCapModifer.join();
 
 let coinURL = "https://api.coingecko.com/api/v3/coins/";
 
@@ -90,7 +90,7 @@ function fetchCoins() {
 			coins.text = data.map((x) => x.name);
 			coins.value = data.map((x) => x.id);
 		});
-}
+};
 //pull data from API
 fetchCoins();
 
@@ -120,14 +120,14 @@ input.addEventListener("keyup", (e) => {
 			//display the value in array
 			listItem.innerHTML = word;
 			document.querySelector(".list").appendChild(listItem);
-		}
-	}
+		};
+	};
 });
 
 function displayNames(value) {
 	input.value = value;
 	removeElements();
-}
+};
 
 function removeElements() {
 	//clear all the item
@@ -135,7 +135,7 @@ function removeElements() {
 	items.forEach((item) => {
 		item.remove();
 	});
-}
+};
 
 
 //fetch modifier to the Global Market Volume
@@ -146,9 +146,9 @@ function fetchglobalmod() {
 		});
 		console.log("global cap mod", globalCapMod)
 		return globalCapMod
-	})
+	});
 	return globalCapMod
-}
+};
 
 
 //Fetch Global Market Volume - response.data.total_volume.usd
@@ -182,8 +182,7 @@ function fetchStablecoinTable(globalCap) {
 			//attach stats to HTML
 			let bigStatistic = $(".display-4")
 				.text(("Stablecoin Index: " + n));
-		})
-
+		});
 };
 
 
@@ -191,7 +190,7 @@ async function index() {
 	fetchglobalmod()
 	await new Promise(resolve => setTimeout(resolve, 80)); //Darwin - fetchglobalmod() takes about ~20 milliseconds to return result. this is a temp fix. 3 API calls are being made currently but can be reduced to 2 with further refinement.
 	indexExe();
-}
+};
 
 index(); ////uncomment to activate, 
 ////END of code for stablecoin index////
@@ -216,9 +215,9 @@ function searchHistory(result) {
 			}
 			// Stringify and store it
 			localStorage.setItem('coinStored', JSON.stringify(coinInStore));
-		}
-	}
-}
+		};
+	};
+};
 
 // Displaying list of cryptocoins in history
 function renderCoinHistory(coinInStore) {
@@ -227,13 +226,13 @@ function renderCoinHistory(coinInStore) {
 	$("#history").empty();
 
 	// Looping through the array of cities
-	for (var i = 0; i < coinInStore.length; i++) {
+	for (let i = 0; i < coinInStore.length; i++) {
 		// If ther is any null do not render it
 		if (coinInStore[i] === null) {
 			continue;
 		}
 		// Dynamicaly generating buttons for each city in the array
-		var btn = $("<button>");
+		let btn = $("<button>");
 		// Add class of city-btn to our button
 		btn.addClass("btn btn-primary coin-btn");
 		// Add data-attribute to each button
@@ -242,18 +241,18 @@ function renderCoinHistory(coinInStore) {
 		btn.text(coinInStore[i]);
 		// Add button to the #history div
 		$("#history").prepend(btn);
-	}
-}
+	};
+};
 
 
 function autocomplete(input, stablecoinArr) {
 	// function takes two arguments: text field element and cryptocoins array
 	// Current focus on the autocomplete suggestion list
-	var currentFocus;
+	let currentFocus;
 	// execute the function when text field is written in
 	input.addEventListener("input", function (event) {
 		// variable to store input value
-		var val = this.value;
+		let val = this.value;
 		console.log("Autocomplete: ", val);
 
 		//close any already open lists of autocompleted values
@@ -289,13 +288,13 @@ function autocomplete(input, stablecoinArr) {
 					closeAutocompleteLists();
 				});
 				itemsEl.appendChild(matchEl);
-			}
-		}
+			};
+		};
 	});
 
 	// function to select autocomplete suggestions with keyboard:
 	input.addEventListener("keydown", function (event) {
-		var item = document.getElementById(this.id + "autocomplete-list");
+		let item = document.getElementById(this.id + "autocomplete-list");
 		if (item) {
 			item = item.getElementsByTagName("div");
 		}
@@ -315,8 +314,8 @@ function autocomplete(input, stablecoinArr) {
 			if (currentFocus > -1) {
 				// and simulate a click on the "active" item:
 				if (item) item[currentFocus].click();
-			}
-		}
+			};
+		};
 	});
 
 	function addActive(item) {
@@ -339,7 +338,7 @@ function autocomplete(input, stablecoinArr) {
 
 	function closeAutocompleteLists(elmnt) {
 		// close all autocomplete lists, except the one passed as an argument
-		var item = document.getElementsByClassName("autocomplete-items");
+		let item = document.getElementsByClassName("autocomplete-items");
 		for (let i = 0; i < item.length; i++) {
 			if (elmnt != item[i] && elmnt != input) {
 				item[i].parentNode.removeChild(item[i]);
@@ -351,7 +350,7 @@ function autocomplete(input, stablecoinArr) {
 		closeAutocompleteLists(event.target);
 
 	});
-}
+};
 
 
 function displayArticles(data) {
@@ -378,7 +377,6 @@ function displayArticles(data) {
 				articleList.append(articleListItem);
 				break;
 			}
-
 		} else {
 			// Create article headline, publication date, abstract and url link
 			articleListItem.append("<h4> " + article.headline.main + "</h4>");
@@ -387,23 +385,19 @@ function displayArticles(data) {
 			articleListItem.append("<a href='" + article.web_url + "'>" + article.web_url + "</a>");
 			// Append the article to article list
 			articleList.append(articleListItem);
-		}
-
-
-
-
-	}
-}
+		};
+	};
+};
 
 
 // In the construction of the buildQueryURL I have follow procedure used in class to construct the NYT search app.
 function buildQueryURL(result) {
 	// constructiong queryURL (URL of API)
-	var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?";
+	let queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?";
 
 	// Make an object containing API with the parameters to query: api-key, q (search term), begin_date,
 	// end_date, ... (we willnot be using begin or end date)
-	var queryPrmts = { "api-key": "R1a31F4tBjCUaM2ho8GtIFsrSdtXt30M" };
+	let queryPrmts = { "api-key": "R1a31F4tBjCUaM2ho8GtIFsrSdtXt30M" };
 
 	// Get the search input and add to the object being constructed
 	queryPrmts.q = result[0].id;
@@ -411,13 +405,13 @@ function buildQueryURL(result) {
 	// console.log API URL constructed for troubleshooting
 	console.log("-------NYT API URL--------\nURL: " + queryURL + $.param(queryPrmts) + "\n----------------------");
 	// Return the URL of the query
-	var query = queryURL + $.param(queryPrmts);
+	let query = queryURL + $.param(queryPrmts);
 	return query;
 }
 
 function nyt(result) {
 	// Obtain the NYT url calling the build function
-	var queryURL = buildQueryURL(result);
+	let queryURL = buildQueryURL(result);
 	// Creating an AJAX call for the NYT API
 	$.ajax({
 		url: queryURL,
@@ -429,8 +423,10 @@ function nyt(result) {
 }
 
 function populateTable(result) {
+	//response contains main crypto information for table
 	let response = result[0];
 
+	//render price info to table
 	let assetName = $(".assetName")
 		.text(response.name);
 	let priceUSD = parseInt(response.current_price);
@@ -470,7 +466,9 @@ function fetchTableData() {
 		});
 };
 
+
 function createGraph(graphData) {
+	//empty graphArray before populating with data from fetchGraphData function
 	let graphArray = [];
 
 	for (let i = 0; i < graphData.length; i++) {
@@ -478,6 +476,7 @@ function createGraph(graphData) {
 		graphArray.push(object);
 	};
 
+	//Uses JS Charting library to create graph
 	JSC.Chart("chartDiv", {
 		series: [
 			{
@@ -487,11 +486,13 @@ function createGraph(graphData) {
 	});
 };
 
+
 function fetchGraphData() {
 	const searchInput = $("#searchInput").val().toLowerCase();
 
 	console.log(searchInput);
 
+	//convert today's date and 7 days ago date to Unix in order to create parameters for api url
 	const dateFrom = moment().subtract(7, 'd').utc();
 	const dateFromUnix = moment().subtract(7, 'd').unix();
 	console.log(dateFrom);
@@ -517,13 +518,7 @@ function fetchGraphData() {
 		});
 };
 
-
-// Autocomplete as seen in   https://www.w3schools.com/howto/howto_js_autocomplete.asp
-// Call autocomplete function before search button is clicked. Pass input and cryptocoin array as arguments.
-//autocomplete(document.getElementById("searchInput"), stablecoinArr);
-//searchHistory(result);
-//renderCoinHistory();
-
+//Event listener for main search button
 $("#searchButton").on("click", function (event) {
 	event.preventDefault();
 
